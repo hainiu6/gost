@@ -76,7 +76,7 @@ unset GOST_ADMIN_PASSWORD
 
 ### 已有面板升级
 
-点击「系统设置 → 一键升级面板」。旧版本中每台节点自动成为一个同类型设备组，规则关联、节点 ID、证书及代理凭证保留，原有代理无需重装即可接收新版分组配置。可再用该组命令加入更多机器；在设备编辑窗口可移动到同类型组，规则随后应选择对应组。删除设备不再要求先删除组规则，但删除组前需清空成员、规则引用及其他组的故障转移引用。
+从旧仓库迁移时，先从本仓库下载并重新运行面板安装脚本；迁移后可点击「系统设置 → 一键升级面板」。旧版本中每台节点自动成为一个同类型设备组，规则关联、节点 ID、证书及代理凭证保留，原有代理无需重装即可接收新版分组配置。可再用该组命令加入更多机器；在设备编辑窗口可移动到同类型组，规则随后应选择对应组。删除设备不再要求先删除组规则，但删除组前需清空成员、规则引用及其他组的故障转移引用。
 
 ### 防火墙与端口
 
@@ -138,7 +138,7 @@ sudo systemctl start gost-panel
 重新执行面板安装脚本会更新代码，保留数据和证书，上一版代码保存到 `/opt/gost-panel.previous`。升级前请备份数据。也可通过 `GOST_PANEL_REF` 指定 GitHub tag / commit：
 
 ```bash
-sudo GOST_PUBLIC_URL=https://panel.example.com:8443 GOST_PANEL_REF=v0.1.0 bash install-panel.sh
+sudo GOST_PUBLIC_URL=https://panel.example.com:8443 GOST_PANEL_REF=main bash install-panel.sh
 ```
 
 本版会自动迁移旧规则，保留节点、证书、端口和凭证，并支持直连规则的空出口字段。手动回退到 0.3 或更早版本时，需停止面板，同时恢复旧代码和**升级前的数据库**；可使用一键升级服务保存的 `/var/lib/gost-panel-upgrade/panel-before-upgrade.db`。恢复数据库时清理停机后的 `panel.db-wal` / `panel.db-shm`，并恢复数据库属主 `gost-panel:gost-panel`。只回退代码不足以恢复旧数据模型。节点代理升级可重新执行对应组安装命令，同机保留设备记录。
